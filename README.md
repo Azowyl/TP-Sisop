@@ -2,7 +2,7 @@
 
 Informe: https://es.sharelatex.com/5791412516ymwkrdtbwvcd
 
-##Instrucciones makefile
+## Instrucciones makefile
 Compilar con: make
 Iniciar qemu con: make qemu
 Debugging: 
