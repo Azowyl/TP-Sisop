@@ -3,14 +3,16 @@ CFLAGS += -m32 -O1 -ffreestanding
 
 kern0: boot.o kern0.o
 	ld -m elf_i386 -Ttext 0x100000 --entry 0x100000 $^ -o $@
-	# Verificar imagen Multiboot v1.
+# Verificar imagen Multiboot v1.
 	grub-file --is-x86-multiboot $@
 
 %.o: %.S
 	$(CC) $(CFLAGS) -c $<
+	echo Build done
 
 clean:
 	rm -f kern0 *.o core
+	echo Clean done
 
 .PHONY: clean
 
@@ -20,11 +22,15 @@ BOOT := -kernel $(KERN)
 
 qemu: $(KERN)
 	$(QEMU) $(BOOT)
+	echo Qemu initialized
 
 qemu-gdb: $(KERN)
 	$(QEMU) -kernel kern0 -S -gdb tcp:127.0.0.1:7508 $(BOOT)
+	echo Debugging initialized
 
 gdb:
 	gdb -q -s kern0 -n -ex 'target remote 127.0.0.1:7508'
 
 .PHONY: qemu qemu-gdb gdb
+
+$(V) .SILENT:
