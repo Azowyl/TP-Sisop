@@ -5,7 +5,7 @@
 void vga_write(const char *s, int8_t linea, uint8_t color) { 
 	volatile char *video = (volatile char*)0xB8000;
    
-	for (int i = 0; i < linea * SCREEN_WIDTH; i++) { video++; }
+	for (int i = 0; i < linea * SCREEN_WIDTH; i++) { video += 2; }
 
     while(*s != 0)
     {
