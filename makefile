@@ -20,8 +20,7 @@ clean:
 .PHONY: clean
 
 QEMU := qemu-system-i386 -serial mon:stdio
-KERN := kern2
-$(QEMU_EXTRA)
+KERN ?= kern2
 BOOT := -kernel $(KERN) $(QEMU_EXTRA)
 
 qemu: $(KERN)
