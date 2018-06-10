@@ -1,6 +1,6 @@
 #include "decls.h"
 #include "multiboot.h"
-#include "string.h"
+#include "lib/string.h"
 
 #define BUF_SIZE 256
 

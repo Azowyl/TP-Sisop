@@ -1,8 +1,8 @@
 CFLAGS := -g -std=c99 -Wall -Wextra -Wpedantic -fasm
 CFLAGS += -m32 -O1 -ffreestanding
 
-SRCS := $(wildcard *.c)
-OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
+SRCS := $(wildcard *.c) $(wildcard lib/*.c)
+OBJS := $(patsubst %.c,%.o,$(SRCS))
 
 kern2: boot.o $(OBJS)
 	ld -m elf_i386 -Ttext 0x100000 $^ -o $@
@@ -14,7 +14,7 @@ kern2: boot.o $(OBJS)
 	echo Build done
 
 clean:
-	rm -f kern2 *.o core
+	rm -f kern2 *.o lib/*.o core
 	echo Clean done
 
 .PHONY: clean
