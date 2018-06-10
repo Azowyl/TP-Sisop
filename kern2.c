@@ -13,7 +13,7 @@ void kmain(const multiboot_info_t *mbi) {
         char buf[BUF_SIZE] = "cmdline: ";
         char *cmdline = (void *) mbi->cmdline;
        
-        strlcat(buf, cmdline, BUF_SIZE - strlen(buf));
+        strlcat(buf, cmdline, BUF_SIZE);
 
         vga_write(buf, 9, 0x07);
     }
