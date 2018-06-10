@@ -24,12 +24,12 @@ _start:
     // (copia condicional).
     // ...
 
-    movl 0, %ecx 
-    movl $multiboot, %edx
+    movl $0, %ecx 
 
-    cmp %eax, MULTIBOOT_BOOTLOADER_MAGIC
+    movl (%eax), %edx
+    cmp %edx, MULTIBOOT_BOOTLOADER_MAGIC
 
-    cmovz %edx, %ecx
+    cmovz %ebx, %ecx
 
     push %ecx
 
