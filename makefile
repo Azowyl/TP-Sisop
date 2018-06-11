@@ -1,3 +1,17 @@
+#########################################################
+### flags para incluir stdint.h y stdbool.h y no libc ###
+#########################################################
+
+ifeq ($(CC), cc)
+	CPPFLAGS := -nostdinc -idirafter lib
+	GCC_PATH := /usr/lib/gcc/x86_64-linux-gnu/7
+	CPPFLAGS += -I$(GCC_PATH)/include -I$(GCC_PATH)/include-fixed
+else 
+	CPPFLAGS := -nostdlibinc -idirafter lib
+endif
+
+#########################################################
+
 CFLAGS := -g -std=c99 -Wall -Wextra -Wpedantic -fasm
 CFLAGS += -m32 -O1 -ffreestanding
 
@@ -10,7 +24,7 @@ kern2: boot.o $(OBJS)
 	grub-file --is-x86-multiboot $@
 
 %.o: %.S
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $<
 	echo Build done
 
 clean:
