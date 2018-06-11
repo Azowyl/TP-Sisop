@@ -1,6 +1,6 @@
-#########################################################
-### flags para incluir stdint.h y stdbool.h y no libc ###
-#########################################################
+################################
+### includes estandar de C99 ###
+################################
 
 ifeq ($(CC), cc)
 	CPPFLAGS := -nostdinc -idirafter lib
@@ -10,7 +10,7 @@ else
 	CPPFLAGS := -nostdlibinc -idirafter lib
 endif
 
-#########################################################
+################################
 
 CFLAGS := -g -std=c99 -Wall -Wextra -Wpedantic -fasm
 CFLAGS += -m32 -O1 -ffreestanding
