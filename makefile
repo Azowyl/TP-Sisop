@@ -17,14 +17,15 @@ CFLAGS += -m32 -O1 -ffreestanding
 
 SRCS := $(wildcard *.c) $(wildcard lib/*.c)
 OBJS := $(patsubst %.c,%.o,$(SRCS))
+ASMS := $(wildcard *.S)
 
-kern2: boot.o $(OBJS)
+kern2: boot.o stacks.o $(OBJS)
 	ld -m elf_i386 -Ttext 0x100000 $^ -o $@
 # Verificar imagen Multiboot v1.
 	grub-file --is-x86-multiboot $@
 
 %.o: %.S
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $^
 	echo Build done
 
 clean:
