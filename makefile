@@ -19,7 +19,7 @@ SRCS := $(wildcard *.c) $(wildcard lib/*.c)
 OBJS := $(patsubst %.c,%.o,$(SRCS))
 ASMS := $(wildcard *.S)
 
-kern2: boot.o stacks.o $(OBJS)
+kern2: boot.o tasks.o $(OBJS)
 	ld -m elf_i386 -Ttext 0x100000 $^ -o $@
 # Verificar imagen Multiboot v1.
 	grub-file --is-x86-multiboot $@
