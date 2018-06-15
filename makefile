@@ -16,10 +16,11 @@ CFLAGS := -g -std=c99 -Wall -Wextra -Wpedantic -fasm
 CFLAGS += -m32 -O1 -ffreestanding
 
 SRCS := $(wildcard *.c) $(wildcard lib/*.c)
-OBJS := $(patsubst %.c,%.o,$(SRCS))
 ASMS := $(wildcard *.S)
+OBJS := $(patsubst %.c,%.o,$(SRCS))
+OBJS += $(patsubst %.S,%.o,$(ASMS))
 
-kern2: boot.o tasks.o $(OBJS)
+kern2: $(OBJS)
 	ld -m elf_i386 -Ttext 0x100000 $^ -o $@
 # Verificar imagen Multiboot v1.
 	grub-file --is-x86-multiboot $@

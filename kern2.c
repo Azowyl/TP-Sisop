@@ -6,8 +6,10 @@
 void kmain(const multiboot_info_t *mbi) {
 	vga_write("kern2 loading.............", 8, 0x70);
 
-	//two_stacks();
-	two_stacks_c();
+	two_stacks();
+	two_stacks_c();									//	kern2-exec
+
+    vga_write2("Funciona vga_write2?", 18, 0xE0);	//	kern2-regcall
 }
 
 static uint8_t stack1[USTACK_SIZE] __attribute__((aligned(4096)));
@@ -51,12 +53,13 @@ void two_stacks_c() {
 	b[2] = (uintptr_t) "vga_write() from stack2";
 
 	// Primera llamada usando task_exec().
-	task_exec((uintptr_t) vga_write, (uintptr_t) b);
+	// task_exec((uintptr_t) vga_write, (uintptr_t) b);
 
 	// Segunda llamada con ASM directo. Importante: no
 	// olvidar restaurar el valor de %esp al terminar, y
 	// compilar con: -fasm -fno-omit-frame-pointer.
-	asm("...; call *%1; ..."
+	
+	/*asm("...; call *%1; ..."
 		: // no outputs
-		: "r"(s2), "r"(vga_write));
+		: "r"(b), "r"(vga_write));*/
 }
