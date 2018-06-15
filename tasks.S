@@ -5,15 +5,15 @@
 .globl task_exec
 task_exec:
 	// Preámbulo estándar
-    push %ebp
-    movl %esp, %ebp
+	push %ebp
+	movl %esp, %ebp
 
-   	movl %ebx, 8(%ebp) // se obtiene entry
-   	movl %eax, 12(%ebp) // se obtiene stack
+	movl 8(%ebp), %ebx	// Se obtiene entry
+	movl 12(%ebp), %eax	// Se obtiene stack
 
-    movl %eax, %esp	// se setea el stack pointer al stack pasado como parametro
+	movl %eax, %esp		// Se setea el stack pointer al stack pasado como parametro
 
-    call %ebx // se llama a entry
+	call %ebx			// Se llama a entry
 
-    leave 
-    ret
+	leave 
+	ret
