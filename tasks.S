@@ -17,3 +17,28 @@ task_exec:
 
 	leave 
 	ret
+
+.globl task_swap
+task_swap:
+
+	//	Callee-saved registers: EBP, EBX, EDI, ESI
+	//	Guardo callee-saved regisers
+	push %ebp
+	push %ebx
+	push %edi
+	push %esi
+
+	//	Swap de stack pointers -> CAMBIO DE STACKS!!1111
+	movl %esp, %eax		// guardo el stack pointer actual en eax
+	movl 16(%ebp), %ebx // guardo el argumento en ebx
+
+	movl %eax, 16(%ebp) // guardo esp en donde estaba el argumento stack nuevo
+	movl %ebx, %esp		// guardo en esp el argumento que seria el stack nuevo
+
+	// restauro los registros callee-saved
+	pop %esi
+	pop %edi
+	pop %ebx
+	pop %ebp
+
+	ret
