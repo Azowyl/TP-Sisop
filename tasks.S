@@ -30,11 +30,11 @@ task_swap:
 	push %esi
 
 	//	Swap de stack pointers -> CAMBIO DE STACKS!!1111
-	movl %esp, %eax		// guardo el stack pointer actual en eax
 	movl 20(%esp), %edx // guardo el argumento en edx
+	movl %esp, %eax		// guardo el stack pointer actual en eax
 
-	movl %eax, 20(%esp) // guardo esp en donde estaba el argumento stack nuevo
 	movl (%edx), %esp		// guardo en esp el argumento que seria el stack nuevo
+	movl %eax, (%edx) // guardo esp en donde estaba el argumento stack nuevo
 
 	// restauro los registros callee-saved
 	pop %esi
