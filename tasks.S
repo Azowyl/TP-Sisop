@@ -8,12 +8,12 @@ task_exec:
 	push %ebp
 	movl %esp, %ebp
 
-	movl 8(%ebp), %ebx	// Se obtiene entry
+	movl 8(%ebp), %edx	// Se obtiene entry
 	movl 12(%ebp), %eax	// Se obtiene stack
 
 	movl %eax, %esp		// Se setea el stack pointer al stack pasado como parametro
 
-	call %ebx			// Se llama a entry
+	call *%edx			// Se llama a entry
 
 	leave 
 	ret
