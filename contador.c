@@ -62,7 +62,7 @@ void contador_run() {
 	*(b--) = 1; 	// 	arg2
 	*(b--) = 100;	// 	arg1
 	b--;			//	space for push ret from call
-	*(b) = (uintptr_t) contador_yield;	//	ret
+	*b = (uintptr_t) contador_yield;	//	ret
 	b -= 4;
 
 	// Actualizar la variable estática ‘esp’ para que apunte

@@ -23,6 +23,7 @@ task_swap:
 
 	//	Callee-saved registers: EBP, EBX, EDI, ESI
 	//	Guardo callee-saved regisers
+
 	push %ebp
 	push %ebx
 	push %edi
@@ -30,10 +31,10 @@ task_swap:
 
 	//	Swap de stack pointers -> CAMBIO DE STACKS!!1111
 	movl %esp, %eax		// guardo el stack pointer actual en eax
-	movl 16(%ebp), %ebx // guardo el argumento en ebx
+	movl 20(%esp), %edx // guardo el argumento en edx
 
-	movl %eax, 16(%ebp) // guardo esp en donde estaba el argumento stack nuevo
-	movl %ebx, %esp		// guardo en esp el argumento que seria el stack nuevo
+	movl %eax, 20(%esp) // guardo esp en donde estaba el argumento stack nuevo
+	movl (%edx), %esp		// guardo en esp el argumento que seria el stack nuevo
 
 	// restauro los registros callee-saved
 	pop %esi
