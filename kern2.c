@@ -4,9 +4,7 @@
 
 #define USTACK_SIZE 4096
 
-void kmain(const multiboot_info_t *mbi) {
-	vga_write("kern2 loading.............", 8, 0x70);
-
+static void print_memory_amount(const multiboot_info_t *mbi) {
 	char mem[256] = "Physical memory: ";
 	char tmp[64] = "";
 
@@ -28,14 +26,24 @@ void kmain(const multiboot_info_t *mbi) {
 	if (fmt_int(mbi->mem_upper, tmp, sizeof tmp)) {
 	    strlcat(mem, tmp, sizeof mem);
 	    strlcat(mem, "KiB extended)", sizeof mem);
-	}	
+	}
 
 	vga_write(mem, 10, 0x07);
+}
+
+void kmain(const multiboot_info_t *mbi) {
+	vga_write("kern2 loading.............", 8, 0x70);
+
+	print_memory_amount(mbi);
 
 	two_stacks();
 	two_stacks_c();		//	kern2-exec
 
 	contador_run();		// Nueva llamada ej. kern2-swap.
+
+	// Código ejercicio kern2-idt.
+    idt_init();   // (a)
+    asm("int3");  // (b)
 
     vga_write2("Funciona vga_write2?", 18, 0xE0);	//	kern2-regcall
 }
