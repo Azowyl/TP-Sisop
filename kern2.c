@@ -1,10 +1,36 @@
 #include "decls.h"
 #include "multiboot.h"
+#include "lib/string.h"
 
 #define USTACK_SIZE 4096
 
 void kmain(const multiboot_info_t *mbi) {
 	vga_write("kern2 loading.............", 8, 0x70);
+
+	char mem[256] = "Physical memory: ";
+	char tmp[64] = "";
+
+	if (!mbi->flags) { vga_write("Error cmdline", 9, 0x57); }
+
+	uint32_t mem_amount_in_kb = mbi->mem_upper - mbi->mem_lower;
+	uint32_t mem_amount_in_mb = mem_amount_in_kb >> 10;
+
+	if (fmt_int(mem_amount_in_mb, tmp, sizeof tmp)) {
+	    strlcat(mem, tmp, sizeof mem);
+	    strlcat(mem, "MiB total (", sizeof mem);
+	}
+
+	if (fmt_int(mbi->mem_lower, tmp, sizeof tmp)) {
+	    strlcat(mem, tmp, sizeof mem);
+	    strlcat(mem, "KiB base, ", sizeof mem);
+	}
+
+	if (fmt_int(mbi->mem_upper, tmp, sizeof tmp)) {
+	    strlcat(mem, tmp, sizeof mem);
+	    strlcat(mem, "KiB extended)", sizeof mem);
+	}	
+
+	vga_write(mem, 10, 0x07);
 
 	two_stacks();
 	two_stacks_c();		//	kern2-exec
