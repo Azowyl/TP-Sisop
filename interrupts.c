@@ -17,6 +17,7 @@ static const uint8_t STS_IG32 = 0xE;
 void idt_init(void) {
 	// (1) Instalar manejadores ("interrupt service routines").
 	idt_install(T_BRKPT, breakpoint);
+	idt_install(T_DIVIDE, divzero);
 
 	// (2) Configurar ubicación de la IDT.
 	idtr.base = (uintptr_t) idt;

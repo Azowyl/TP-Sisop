@@ -43,3 +43,8 @@ void vga_write(const char *s, int8_t linea, uint8_t color) {
         *video++ = color;
     }
 }
+
+void __attribute__((regparm(2)))
+vga_write_cyan(const char *s, int8_t linea) {
+    vga_write(s, linea, 0xB0);
+}

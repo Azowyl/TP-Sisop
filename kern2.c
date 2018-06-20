@@ -14,24 +14,27 @@ static void print_memory_amount(const multiboot_info_t *mbi) {
 	uint32_t mem_amount_in_mb = mem_amount_in_kb >> 10;
 
 	if (fmt_int(mem_amount_in_mb, tmp, sizeof tmp)) {
-	    strlcat(mem, tmp, sizeof mem);
-	    strlcat(mem, "MiB total (", sizeof mem);
+		strlcat(mem, tmp, sizeof mem);
+		strlcat(mem, "MiB total (", sizeof mem);
 	}
 
 	if (fmt_int(mbi->mem_lower, tmp, sizeof tmp)) {
-	    strlcat(mem, tmp, sizeof mem);
-	    strlcat(mem, "KiB base, ", sizeof mem);
+		strlcat(mem, tmp, sizeof mem);
+		strlcat(mem, "KiB base, ", sizeof mem);
 	}
 
 	if (fmt_int(mbi->mem_upper, tmp, sizeof tmp)) {
-	    strlcat(mem, tmp, sizeof mem);
-	    strlcat(mem, "KiB extended)", sizeof mem);
+		strlcat(mem, tmp, sizeof mem);
+		strlcat(mem, "KiB extended)", sizeof mem);
 	}
 
 	vga_write(mem, 10, 0x07);
 }
 
 void kmain(const multiboot_info_t *mbi) {
+	int8_t linea;
+	uint8_t color;
+
 	vga_write("kern2 loading.............", 8, 0x70);
 
 	print_memory_amount(mbi);
@@ -39,14 +42,18 @@ void kmain(const multiboot_info_t *mbi) {
 	two_stacks();
 	two_stacks_c();		//	kern2-exec
 
-	contador_run();		// Nueva llamada ej. kern2-swap.
+	// contador_run();		// Nueva llamada ej. kern2-swap.
 
 	// Código ejercicio kern2-idt.
-    idt_init();   // (a)
-    irq_init();   // kern2-irq
-    asm("int3");  // (b)
+	idt_init();		// (a)
+	irq_init();		// kern2-irq
+	// asm("int3");	// (b)
 
-    vga_write2("Funciona vga_write2?", 18, 0xE0);	//	kern2-regcall
+	asm("div %5"
+		: "=a"(linea), "=c"(color)
+		: "0"(18), "1"(0xE0), "b"(1), "d"(0));
+
+	vga_write2("Funciona vga_write2?", linea, color);
 }
 
 static uint8_t stack1[USTACK_SIZE] __attribute__((aligned(4096)));
