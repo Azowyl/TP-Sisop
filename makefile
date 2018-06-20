@@ -29,7 +29,7 @@ kern2: $(OBJS)
 
 %.o: %.S
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $^
-	echo Build done
+	echo Done building: $^
 
 clean:
 	rm -f kern2 *.o lib/*.o core
