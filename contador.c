@@ -11,6 +11,13 @@ static uintptr_t esp;
 static uint8_t stack1[USTACK_SIZE] __attribute__((aligned(4096)));
 static uint8_t stack2[USTACK_SIZE] __attribute__((aligned(4096)));
 
+static void exit() {
+	if (!esp) { return; } // la primera tarea no deberia ceder
+    uintptr_t *tmp = esp;
+    esp = 0;
+    task_swap(&tmp);
+}
+
 static void yield() {
 	if (esp)
 		task_swap(&esp);
@@ -60,8 +67,8 @@ void contador_run() {
 	// contador_yield(100, 1, 0x4F);
 	*(b--) = 0x4F;	// 	arg3
 	*(b--) = 1; 	// 	arg2
-	*(b--) = 100;	// 	arg1
-	b--;			//	space for push ret from call
+	*(b--) = 10;	// 	arg1
+	*(b--) = (uintptr_t) exit;
 	*b = (uintptr_t) contador_yield;	//	ret
 	b -= 4;
 
