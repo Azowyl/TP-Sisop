@@ -14,9 +14,6 @@ static const uint8_t KSEG_CODE = 8;
 // tabla 6-2: IDT Gate Descriptors).
 static const uint8_t STS_IG32 = 0xE;
 
-void idt_init(void);
-void idt_install(uint8_t n, void (*handler)(void));
-
 void idt_init(void) {
 	// (1) Instalar manejadores ("interrupt service routines").
     idt_install(T_BRKPT, breakpoint);
