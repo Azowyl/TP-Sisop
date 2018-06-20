@@ -20,7 +20,7 @@ void idt_init(void) {
 
 	// (2) Configurar ubicación de la IDT.
 	idtr.base = (uintptr_t) idt;
-	idtr.limit = 255;
+	idtr.limit = 2047;
 
 	// (3) Activar IDT.
 	asm("lidt %0" : : "m"(idtr));
