@@ -26,6 +26,24 @@ timer_asm:
 
 	jmp ack_irq
 
+.globl keyboard_asm
+keyboard_asm:
+	// Guardar registros.
+	push %ebp
+	push %ebx
+	push %edi
+	push %esi
+
+	call keyboard
+	
+	// Restaurar registros.
+	pop %esi
+	pop %edi
+	pop %ebx
+	pop %ebp
+
+	jmp ack_irq
+
 .globl divzero
 divzero:
 	// (1) Guardar registros.
@@ -51,7 +69,7 @@ divzero:
 	pop %ebp
 
 	// (6) Finalizar ejecución del manejador.
-	iret
+	jmp ack_irq
 
 .data
 divzero_sol:
