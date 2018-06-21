@@ -13,9 +13,9 @@ static uint8_t stack2[USTACK_SIZE] __attribute__((aligned(4096)));
 
 static void exit() {
 	if (!esp) { return; } // la primera tarea no deberia ceder
-    uintptr_t *tmp = esp;
+    uintptr_t *tmp = (uintptr_t *) esp;
     esp = 0;
-    task_swap(&tmp);
+    task_swap((uintptr_t*)&tmp);
 }
 
 static void yield() {
