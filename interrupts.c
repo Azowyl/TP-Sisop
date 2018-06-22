@@ -1,7 +1,7 @@
 #include "decls.h"
 #include "interrupts.h"
 
-#define LOW_15_BITS_MASK  0x00007FFF
+#define LOW_16_BITS_MASK  0x0000FFFF
 
 static struct IDTR idtr;
 static struct Gate idt[256];
@@ -46,7 +46,7 @@ void idt_install(uint8_t n, void (*handler)(void)) {
 	idt[n].type = STS_IG32;
 	idt[n].segment = KSEG_CODE;
 
-	idt[n].off_15_0 = addr & LOW_15_BITS_MASK;
+	idt[n].off_15_0 = addr & LOW_16_BITS_MASK;
 	idt[n].off_31_16 = addr >> 16;
 
 	idt[n].present = 1;

@@ -131,7 +131,7 @@ void keyboard() {
     *  set, that means that a key has just been released */
     if (code & 0x80) {
         // key released 
-        code = code & 0x7F;
+        code = code & 0x7F; // turn off bit 7
         if (kbdus[code] == LEFT_SHIFT) { shift_pressed = false; }
     } else {
         // key pressed

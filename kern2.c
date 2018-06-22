@@ -47,7 +47,7 @@ void kmain(const multiboot_info_t *mbi) {
 	// Código ejercicio kern2-idt.
 	idt_init();		// (a)
 	irq_init();		// kern2-irq
-	//asm("int3");	// (b)
+	asm("int3");	// (b)
 
 	asm("div %5"
 		: "=a"(linea), "=c"(color)
