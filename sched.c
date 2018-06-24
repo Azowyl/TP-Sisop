@@ -72,7 +72,11 @@ void sched(struct TaskFrame *tf) {
 
 	new = &(Tasks[i]);
 
-	old->status = READY;
+	if (old->status != FREE) {
+		// only set READY state if it was not killed by task_kill
+		old->status = READY;
+	}
+	
 	old->frame = tf;
 
 	current = new;
