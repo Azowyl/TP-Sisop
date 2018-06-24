@@ -41,8 +41,8 @@ void keyboard(void);
 
 // funcs.S
 __attribute__((regparm(3))) void vga_write2(const char *s,
-                                            int8_t linea,
-                                            uint8_t color);
+											int8_t linea,
+											uint8_t color);
 
 // write.c
 void vga_write(const char *s, int8_t linea, uint8_t color);

@@ -13,9 +13,9 @@ static uint8_t stack2[USTACK_SIZE] __attribute__((aligned(4096)));
 
 static void exit() {
 	if (!esp) { return; } // la primera tarea no deberia ceder
-    uintptr_t *tmp = (uintptr_t *) esp;
-    esp = 0;
-    task_swap((uintptr_t*)&tmp);
+	uintptr_t *tmp = (uintptr_t *) esp;
+	esp = 0;
+	task_swap((uintptr_t*)&tmp);
 }
 
 static void yield() {
@@ -78,4 +78,22 @@ void contador_run() {
 
 	// Lanzar el primer contador con task_exec.
 	task_exec((uintptr_t) contador_yield, (uintptr_t) a);
+}
+
+static void contador1() {
+	contador_yield(50000000, 2, 0x2F);
+}
+
+static void contador2() {
+	contador_yield(50000000, 3, 0x6F);
+}
+
+static void contador3() {
+	contador_yield(50000000, 4, 0x4F);
+}
+
+void contador_spawn() {
+	spawn(contador1);
+	spawn(contador2);
+	spawn(contador3);
 }

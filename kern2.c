@@ -1,4 +1,5 @@
 #include "decls.h"
+#include "sched.h"
 #include "multiboot.h"
 #include "lib/string.h"
 
@@ -44,6 +45,10 @@ void kmain(const multiboot_info_t *mbi) {
 
 	contador_run();		// Nueva llamada ej. kern2-swap.
 
+	sched_init();
+
+	contador_spawn();
+	
 	// Código ejercicio kern2-idt.
 	idt_init();		// (a)
 	irq_init();		// kern2-irq
