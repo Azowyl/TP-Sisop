@@ -8,7 +8,7 @@ static struct Task Tasks[MAX_TASK];
 static struct Task *current;
 
 void sched_init() {
-	current = &Tasks[0];
+	current = &(Tasks[0]);
 	current->status = RUNNING;
 }
 

@@ -22,6 +22,10 @@ void task_swap(uintptr_t *esp);
 
 // contador.c
 void contador_run(void);
+void contador1();
+void contador2();
+void contador3();
+void contador_spawn();
 
 // interrupts.c
 void idt_init(void);
