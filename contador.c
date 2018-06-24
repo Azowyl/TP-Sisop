@@ -4,6 +4,7 @@
 #define TICKS (1ULL << 15)
 #define DELAY(x) (TICKS << (x))
 #define USTACK_SIZE 4096
+#define MAX_COUNT 150//50000000
 
 static volatile char *const VGABUF = (volatile void *) 0xb8000;
 
@@ -81,15 +82,15 @@ void contador_run() {
 }
 
 static void contador1() {
-	contador_yield(50000000, 2, 0x2F);
+	contador_yield(MAX_COUNT, 2, 0x2F);
 }
 
 static void contador2() {
-	contador_yield(50000000, 3, 0x6F);
+	contador_yield(MAX_COUNT, 3, 0x6F);
 }
 
 static void contador3() {
-	contador_yield(50000000, 4, 0x4F);
+	contador_yield(MAX_COUNT, 4, 0x4F);
 }
 
 void contador_spawn() {

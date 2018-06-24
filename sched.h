@@ -1,3 +1,5 @@
+#define STACK_SIZE 4096
+
 enum TaskStatus {
 	FREE = 0,
 	READY,
@@ -19,10 +21,11 @@ struct TaskFrame {
 	uint16_t cs;
 	uint16_t padding;
 	uint32_t eflags;
+	uint32_t kill_fn;
 }__attribute__((packed));
 
 struct Task {
-	uint8_t stack[4096];
+	uint8_t stack[STACK_SIZE];
 	enum TaskStatus status;
 	struct TaskFrame *frame;
 };

@@ -26,7 +26,7 @@ timer_asm:
 	addl $4, %esp
 	popa
 	iret
-	
+
 .globl keyboard_asm
 keyboard_asm:
 	// Guardar registros.

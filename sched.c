@@ -3,9 +3,15 @@
 
 #define MAX_TASK 10
 #define INT_FLAG 0x0200
+#define KSEG_CODE 8
 
 static struct Task Tasks[MAX_TASK];
 static struct Task *current;
+
+static task_kill() {
+	current->status = FREE;
+	sched(NULL);
+}
 
 void sched_init() {
 	current = &(Tasks[0]);
@@ -23,6 +29,10 @@ void spawn(void (*entry)(void)) {
 	// Cambiar su status a READY
 	Tasks[i].status = READY;
 
+	// Frame apunta a tope de pila
+	uint32_t initial_stack_pos = STACK_SIZE - sizeof(struct TaskFrame) - 1;
+	Tasks[i].frame = ((struct TaskFrame *) &(Tasks[i].stack[initial_stack_pos]));
+
 	// Inicializar registros
 	(Tasks[i].frame)->edi = 0;
 	(Tasks[i].frame)->esi = 0;
@@ -33,9 +43,10 @@ void spawn(void (*entry)(void)) {
 	(Tasks[i].frame)->ecx = 0;
 	(Tasks[i].frame)->eax = 0;
 	(Tasks[i].frame)->eip = (uint32_t) entry;
-	// Tasks[i].cs = ;
+	(Tasks[i].frame)->cs = KSEG_CODE;
 	(Tasks[i].frame)->padding = 0;
 	(Tasks[i].frame)->eflags = INT_FLAG;
+	(Tasks[i].frame)->kill_fn = task_kill;
 }
 
 void sched(struct TaskFrame *tf) {
@@ -54,7 +65,7 @@ void sched(struct TaskFrame *tf) {
 	// Buscar siguiente tarea en READY
 	while ( Tasks[i].status != READY ) {
 		i++;
-		if (i >= MAX_TASK) {
+		if (i >= MAX_TASK) {	// Reinicio cola
 			i = 0;
 		}
 	}
