@@ -8,7 +8,7 @@
 static struct Task Tasks[MAX_TASK];
 static struct Task *current;
 
-static task_kill() {
+static void task_kill() {
 	current->status = FREE;
 	sched(NULL);
 }
@@ -46,7 +46,7 @@ void spawn(void (*entry)(void)) {
 	(Tasks[i].frame)->cs = KSEG_CODE;
 	(Tasks[i].frame)->padding = 0;
 	(Tasks[i].frame)->eflags = INT_FLAG;
-	(Tasks[i].frame)->kill_fn = task_kill;
+	(Tasks[i].frame)->kill_fn = (uint32_t) task_kill;
 }
 
 void sched(struct TaskFrame *tf) {
