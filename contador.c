@@ -1,4 +1,5 @@
 #include "decls.h"
+#include "sched.h"
 
 #define COUNTLEN 20
 #define TICKS (1ULL << 15)
