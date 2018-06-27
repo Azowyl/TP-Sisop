@@ -22,7 +22,7 @@ timer_asm:
 	push %esp
 	call sched
 
-	// Retornar (si se volvió de sched)
+	// Retornar (si se volvio de sched)
 	addl $4, %esp
 	popa
 	iret

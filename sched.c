@@ -54,7 +54,7 @@ void sched(struct TaskFrame *tf) {
 	struct Task *old = current;
 
 	// Encontrar en el arreglo 
-	// la tarea en ejecución
+	// la tarea en ejecucion
 	int i = 0;
 	while ( &(Tasks[i]) != current ) {
 		i++;
